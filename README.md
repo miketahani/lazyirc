@@ -3,7 +3,7 @@ too lazy to find a decent IRC client, so i'm building a node server that acts as
 
 ## contents
 #### fake ident server
-you'll need to set up port forwarding on your router (i think). this will eventually get collapsed into the node server below.
+you'll need to set up port forwarding on your router (i think). to test: `sudo node identd.js` then `telnet 127.0.0.1 113` and type 'hi'. this will eventually get collapsed into the node server below.
 
 #### (todo) node server
 connects to a remote IRC server with `net`. responds to PING/PONG events; parses, translates, and forwards messages between the frontend and the IRC server. speaks [RFC 1459](https://tools.ietf.org/html/rfc1459) so the frontend doesn't have to.

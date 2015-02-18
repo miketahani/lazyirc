@@ -1,5 +1,5 @@
 // fake an ident server
-// will need to turn on port forwarding on your router
+// will need to turn on port forwarding on your router and run this as root to open up the port
 var net   = require('net');
 var host  = '127.0.0.1',
     port  = 113,
@@ -7,17 +7,21 @@ var host  = '127.0.0.1',
     ident = '???';
 
 net.createServer(function (socket) {
-    var socketAddress = socket.remoteAddress + ':' + socket.remotePort;
-    console.log('[*] connection from ' + socketAddress);
-    
-    socket.on('data', function (data) {
-        console.log('[*] received data: ' + sock.remoteAddress + ': ' + data);
-        socket.write(data + ' : USERID : UNIX : ' + ident + '\n');
+  socket.setEncoding('utf-8');
+  var socketAddress = socket.remoteAddress + ':' + socket.remotePort;
+  console.log('[*] connection from ' + socketAddress);
+  
+  socket.on('data', function (data) {
+    data = data.replace(/\r|\n/g, '');
+    console.log('[*] received data: ' + socketAddress + ': ' + data);
+    socket.write(data + ' : USERID : UNIX : ' + ident + '\n', 'utf-8', function () {
+      ;
     });
+  });
     
-    sock.on('close', function(data) {
-        console.log('[*] disconnected: ' + socketAddress);
-    });
+  socket.on('close', function(data) {
+    console.log('[*] disconnected: ' + socketAddress);
+  });
     
 }).listen(port, host);
 
